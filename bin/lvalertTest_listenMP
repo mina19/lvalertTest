@@ -8,7 +8,7 @@ author      = "reed.essick@ligo.org"
 import os
 import multiprocessing as mp
 
-from ligoMP.lvalert import interactiveQueue as iQ
+from lvalertMP.lvalert import interactiveQueue as iQ
 from ligoTest.lvalert import lvalertTestUtils as lvutils
 
 import time
