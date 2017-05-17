@@ -70,8 +70,8 @@ if opts.distrib not in ["poisson", "uniform"]:
 if not opts.instruments:
     raise ValueError( '--please specify at least 2 IFO via --instruments' )
 opts.instruments = opts.instruments.split(',')
-if len(opts.instruments) < 2:
-    raise ValueError( '--please specify at least 2 IFO via --instruments' )
+if len(opts.instruments) < 1:
+    raise ValueError( '--please specify at least 1 IFO via --instruments' )
 
 ### verbosity
 opts.Verbose = opts.Verbose or opts.test
