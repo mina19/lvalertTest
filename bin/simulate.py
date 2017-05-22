@@ -150,7 +150,7 @@ for ind, wait in enumerate(waits):
 
     ### generate a schedule specifically for this event
     gps = start_gps + delay
-    far = 1e-9 ### FIXME: should probably randomly assign this...
+    far = np.random.randint(1,10)*1e-9 ### FIXME: should probably randomly assign this...
     instruments = opts.instruments
 
     ### choose the event type
