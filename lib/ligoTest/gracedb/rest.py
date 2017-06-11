@@ -54,10 +54,10 @@ class FakeDb():
 
     NOTE: we do NOT support the full functionality of GraceDb
     """
-    __group2letter__ = {'cbc'   : 'G', 
-                        'burst' : 'G',
-                        'test'  : 'T',
-                        'mdc'   : 'M',
+    __group2letter__ = {'CBC'   : 'G', 
+                        'Burst' : 'G',
+                        'Test'  : 'T',
+                        'MDC'   : 'M',
                        }
 
     __allowedGroupPipelineSearch__ = {'Test'  : {'CWB'          : ['AllSky', None],
@@ -281,7 +281,7 @@ class FakeDb():
         return jsonD, lvalert
 
     def __file2extraattributes__(self, pipeline, filename):
-        if pipeline == 'cwb':
+        if pipeline.lower() == 'cwb':
             file_obj = open(filename, 'r')
             ans = {'extra_attributes':{
                                       },
@@ -308,7 +308,7 @@ class FakeDb():
                     
                     readme = "significance based on " in line ### next line is a FAR statement
                         
-        elif pipeline == 'lib':
+        elif pipeline.lower() == 'lib':
             file_obj = open(filename, 'r')
             a = json.loads( file_obj.read() )
             file_obj.close()
@@ -331,7 +331,7 @@ class FakeDb():
 #                  }
 
             ans = {'gpstime'    : a['gpstime'],
-                   'FAR'        : a['FAR'],
+                   'far'        : a['FAR'],
                    'instruments': a['instruments'],
                    'likelihood' : a['likelihood'],
                    'nevents'    : a['nevents'],
@@ -376,10 +376,10 @@ class FakeDb():
     def createEvent(self, group, pipeline, filename, search=None, filecontents=None, **kwargs):
         self.check_group_pipeline_search( group, pipeline, search )
 
-        group    = group.lower()
-        pipeline = pipeline.lower()
-        if search: 
-            search = search.lower()
+        #group    = group.lower()
+        #pipeline = pipeline.lower()
+        #if search: 
+        #    search = search.lower()
 
         graceid = self.__genGraceID__(group) ### generate the graceid
         self.__createDirectory__(graceid) ### create local directory and all necessary files

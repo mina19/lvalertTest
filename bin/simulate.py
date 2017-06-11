@@ -31,6 +31,8 @@ parser.add_option("-v", "--verbose", default=False, action="store_true")
 parser.add_option("-V", "--Verbose", default=False, action="store_true")
 
 ### testing options
+parser.add_option("-G", "--start-time", default=None, type="float", help="Starting gpstime of simulation")
+parser.add_option("--far", default=None, type="float", help="Supply far of the simulated events")
 parser.add_option("-s", "--unsafe-uploads", default=False, action="store_true", help="allow event creation with group!=Test")
 parser.add_option("-T", "--test", default=False, action="store_true", help="do not actually perform actions, but only print what they are")
 
@@ -141,7 +143,7 @@ if opts.verbose:
 sched = schedule.Schedule()
 delay = 0.0
 t0 = time.time()
-start_gps = float(tconvert('now'))
+start_gps = opts.start_time if opts.start_time else float(tconvert('now'))
 for ind, wait in enumerate(waits):
     if opts.verbose:
         print "generating schedule for event %d"%(ind)
@@ -150,7 +152,7 @@ for ind, wait in enumerate(waits):
 
     ### generate a schedule specifically for this event
     gps = start_gps + delay
-    far = np.random.randint(1,10)*1e-9 ### FIXME: should probably randomly assign this...
+    far = opts.far if opts.far else np.random.randint(1,10)*1e-9 ### FIXME: should probably randomly assign this...
     instruments = opts.instruments
 
     ### choose the event type
