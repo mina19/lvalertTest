@@ -87,8 +87,6 @@ def alert2server( node, message, username=None, netrc=None, server='lvalert.cgca
 
     ### run command
     sp.Popen( cmd, stdout=sys.stdout, stderr=sys.stderr ).wait()
-
-    ### clean up tempfile
     os.remove(tmpfile)
 
 def alert2interactiveQueue( node, message, node2proc={}, verbose=False):
