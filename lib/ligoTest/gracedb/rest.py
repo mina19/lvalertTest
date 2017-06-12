@@ -100,7 +100,7 @@ class FakeDb():
     def __init__(self, directory='.'):
         if not os.path.exists(directory):
             os.makedirs(directory)
-        self.home = directory
+        self.service_url = directory
         self.lvalert = os.path.join(directory, 'lvalert.out') ### file into which we write lvalert messages
 
     ### write lvalert messages into a file ###
@@ -161,7 +161,7 @@ class FakeDb():
 
     def __get_all_graceids__(self):
         graceids = []
-        for path in os.listdir(self.home):
+        for path in os.listdir(self.service_url):
             path = os.path.basename(path)
             if self.__is_graceid__(path):
                 graceids.append( path )
@@ -185,19 +185,19 @@ class FakeDb():
         '''
         generates the directory associated with this graceid
         '''
-        return os.path.join(self.home, graceid)
+        return os.path.join(self.service_url, graceid)
 
     def __topLevelPath__(self, graceid):
-        return os.path.join(self.home, graceid, 'toplevel.pkl')
+        return os.path.join(self.service_url, graceid, 'toplevel.pkl')
 
     def __filesPath__(self, graceid):
-        return os.path.join(self.home, graceid, 'files.pkl')
+        return os.path.join(self.service_url, graceid, 'files.pkl')
 
     def __labelsPath__(self, graceid):
-        return os.path.join(self.home, graceid, 'labels.pkl')
+        return os.path.join(self.service_url, graceid, 'labels.pkl')
 
     def __logsPath__(self, graceid):
-        return os.path.join(self.home, graceid, 'logs.pkl')
+        return os.path.join(self.service_url, graceid, 'logs.pkl')
 
     def __path2len__(self, path):
         return len(self.__extract__(path))
@@ -244,7 +244,7 @@ class FakeDb():
                 file_obj.close()
 
     def __newfilename__(self, graceid, filename):
-        return os.path.join(self.home, graceid, os.path.basename(filename))
+        return os.path.join(self.service_url, graceid, os.path.basename(filename))
 
     def __copyFile__(self, graceid, filename):
         newFilename = self.__newfilename__(graceid, filename)
