@@ -89,6 +89,218 @@ class FakeDb():
                          'V1OPS', 'V1OK', 'V1NO',
                         ]
 
+    __allowedEMGroups__ = [
+        'Test', 
+        'LV-EM Followup', 
+        'ARI LJMU', 
+        'CRTS', 
+        'FIGARO', 
+        'FRBSG', 
+        'GOTO', 
+        'GWU LSC Group', 
+        'H.E.S.S.', 
+        'INAF', 
+        'IUCAA',
+        'LCOGT', 
+        'MAGIC', 
+        'Pan-STARRS', 
+        'PIRATE', 
+        'RoboPol', 
+        'Swift', 
+        'TOROS', 
+        'VERITAS', 
+        'ZTF', 
+        'AROMA', 
+        'CALET', 
+        'DES', 
+        'EWE', 
+        'FLEAS',
+        'HAWC', 
+        'HETGS', 
+        'ISDC', 
+        'LOFAR-TKSP', 
+        'LSQ', 
+        'MAXI', 
+        'MWA', 
+        'OVRO', 
+        'PESSTO', 
+        'Pi of the Sky', 
+        'SVOM', 
+        'HTRU', 
+        'TZAC', 
+        'VAST', 
+        'GRA SAO RAS', 
+        'ARAE', 
+        'Berger Time-Domain Research Group', 
+        'Caltech-NRAO Radio Transient Group', 
+        'Fast Spectroscopy with LBT and Gemini', 
+        'Fermi', 
+        'J-GEM', 
+        'KU', 
+        'LGT-Lulin', 
+        'LV Swift MIT EM Follow-up', 
+        'MASTER', 
+        'RAPTOR', 
+        'RATIR', 
+        'SAAO', 
+        'SkyMapper', 
+        'SRO7', 
+        'Terskol-GW follow-up', 
+        'TLS', 
+        'TTU LSC group', 
+        'TTU Observatory', 
+        'Leicester transient science team', 
+        'USO', 
+        'Wise-GECO', 
+        'XMM-Newton', 
+        'ATLAS', 
+        '1M2H', 
+        'AAOGW', 
+        'AGILE', 
+        'ANTARES', 
+        'Apertif-EVN', 
+        'AST3', 
+        'Auger', 
+        'AZTEC-GW', 
+        'BlackGEM', 
+        'COSI', 
+        'CTA', 
+        'CZTI-IUCAA', 
+        'DLT40', 
+        'DWF', 
+        'FAST', 
+        'GROND', 
+        'Huntsman', 
+        'HXMT', 
+        'IceCube', 
+        'IKI_GRB', 
+        'IPN', 
+        'MeerKAT', 
+        'NenuFAR', 
+        'NRAO', 
+        'NTE', 
+        'OGWARTS', 
+        'RIMAS', 
+        'SRG-eROSITA', 
+        'TLC X-ray Imaging', 
+        'UNC-LFP',
+    ]
+
+    __allowedWavebands__ = {
+        'em.radio'           : 'Radio part of the spectrum', 
+        'em.radio.200-400MHz': 'Radio between 200 and 400 MHz', 
+        'em.UV.100-200nm'    : 'Ultraviolet between 100 and 200 nm', 
+        'em.IR'              : 'Infrared part of the spectrum', 
+        'em.mm.100-200GHz'   : 'Millimetric between 100 and 200 GHz', 
+        'em.UV.50-100nm'     : 'Ultraviolet between 50 and 100 nm', 
+        'em.opt.B'           : 'Optical band between 400 and 500 nm', 
+        'em.mm'              : 'Millimetric part of the spectrum', 
+        'em.mm.30-50GHz'     : 'Millimetric between 30 and 50 GHz', 
+        'em.radio.3-6GHz'    : 'Radio between 3 and 6 GHz', 
+        'em.IR.NIR'          : 'Near-Infrared, 1-5 microns', 
+        'em.opt.U'           : 'Optical band between 300 and 400 nm', 
+        'em.opt.V'           : 'Optical band between 500 and 600 nm', 
+        'em.UV'              : 'Ultraviolet part of the spectrum', 
+        'em.opt.R'           : 'Optical band between 600 and 750 nm', 
+        'em.X-ray.medium'    : 'Medium X-ray (2 - 12 keV)', 
+        'em.UV.10-50nm'      : 'Ultraviolet between 10 and 50 nm', 
+        'em.IR.FIR'          : 'Far-Infrared, 30-100 microns', 
+        'em.mm.750-1500GHz'  : 'Millimetric between 750 and 1500 GHz', 
+        'em.IR.8-15um'       : 'Infrared between 8 and 15 micron', 
+        'em.IR.60-100um'     : 'Infrared between 60 and 100 micron', 
+        'em.UV.FUV'          : 'Far-Infrared, 30-100 microns', 
+        'em.gamma.hard'      : 'Hard gamma ray (>500 keV)', 
+        'em.X-ray.soft'      : 'Soft X-ray (0.12 - 2 keV)', 
+        'em.IR.4-8um'        : 'Infrared between 4 and 8 micron', 
+        'em.UV.200-300nm'    : 'Ultraviolet between 200 and 300 nm', 
+        'em.mm.1500-3000GHz' : 'Millimetric between 1500 and 3000 GHz', 
+        'em.radio.750-1500MHz': 'Radio between 750 and 1500 MHz', 
+        'em.X-ray.hard'      : 'Hard X-ray (12 - 120 keV)', 
+        'em.gamma.soft'      : 'Soft gamma ray (120 - 500 keV)', 
+        'em.radio.400-750MHz': 'Radio between 400 and 750 MHz', 
+        'em.radio.1500-3000MHz': 'Radio between 1500 and 3000 MHz', 
+        'em.IR.H'            : 'Infrared between 1.5 and 2 micron', 
+        'em.opt.I'           : 'Optical band between 750 and 1000 nm', 
+        'em.IR.J'            : 'Infrared between 1.0 and 1.5 micron', 
+        'em.IR.K'            : 'Infrared between 2 and 3 micron', 
+        'em.radio.12-30GHz'  : 'Radio between 12 and 30 GHz', 
+        'em.mm.50-100GHz'    : 'Millimetric between 50 and 100 GHz', 
+        'em.gamma'           : 'Gamma rays part of the spectrum', 
+        'em.mm.400-750GHz'   : 'Millimetric between 400 and 750 GHz', 
+        'em.IR.MIR'          : 'Medium-Infrared, 5-30 microns', 
+        'em.radio.6-12GHz'   : 'Radio between 6 and 12 GHz', 
+        'em.IR.3-4um'        : 'Infrared between 3 and 4 micron', 
+        'em.X-ray'           : 'X-ray part of the spectrum', 
+        'em.opt'             : 'Optical part of the spectrum', 
+        'em.IR.30-60um'      : 'Infrared between 30 and 60 micron', 
+        'em.radio.100-200MHz': 'Radio between 100 and 200 MHz', 
+        'em.IR.15-30um'      : 'Infrared between 15 and 30 micron', 
+        'em.mm.200-400GHz'   : 'Millimetric between 200 and 400 GHz', 
+        'em.radio.20-100MHz' : 'Radio between 20 and 100 MHz',
+    }
+
+    __allowedVOEventTypes__ = {
+        'PR': 'preliminary', 
+        'RE': 'retraction', 
+        'UP': 'update', 
+        'IN': 'initial',
+    }
+
+    __allowedEELStatuses__ = {
+        'SO': 'SOURCE', 
+        'CI': 'CIRCULAR', 
+        'CO': 'COMMENT', 
+        'FO': 'FOOTPRINT',
+    }
+
+    __allowedOBSStatuses__ = {
+        'PR': 'PREDICTION', 
+        'NA': 'NOT APPLICABLE', 
+        'TE': 'TEST', 
+        'OB': 'OBSERVATION',
+    }
+
+    ### properties that would query the remote server
+
+    @property
+    def groups(self):
+        return self.__allowedGroupPipelineSearch__.keys()
+
+    @property
+    def pipelines(self):
+        ans = []
+        for key, val in self.__allowedGroupPipelineSearch__.items():
+            ans += val.keys()
+        return sorted(set(ans))
+
+    @property
+    def searches(self):
+        ans = []
+        for key, val in self.__allowedGroupPipelineSearch__.items():
+            for v in val.values():
+                ans += v
+        return [_ for _ in sorted(set(ans)) if _!=None]
+
+    @property
+    def em_groups(self):
+        return self.__allowedEMGroups__
+
+    @property
+    def wavebands(self):
+        return self.__allowedWavebands__
+
+    @property
+    def voevent_types(self):
+        return self.__allowedVOEventTypes__
+
+    @property
+    def eel_statuses(self):
+        return __allowedEELStatuses__
+
+    @property
+    def obs_statuses(self):
+        return __allowedOBSStatuses__
+
     __allowedSignoffs__ = ['H1OK' , 'H1NO',
                            'L1OK' , 'L1NO',
                            'V1OK' , 'V1NO',
@@ -656,3 +868,97 @@ class FakeDb():
         self.check_graceid(graceid)
 
         return FakeTTPResponse( dict( (os.path.basename(filename), filename) for filename in self.__extract__( self.__filesPath__(graceid) ) ) )
+
+    #--- methods that aren't really supported yet in any meaningful way
+
+    def createVOEvent(self, *args, **kwargs):
+        """
+        WARNING: this is not actually implemented and is only present for syntactic completion.
+        If users actually need to reference the VOEvents that they create, then we'll have to actually implement somthing.
+        """
+        pass
+
+    def voevents(self, graceid):
+        """
+        WARNING: not implemented yet. Should return some sort of list of VOEvents that have been created for this GraceId
+        """
+        raise NotImplementedError, 'need to implement FakeDb.createVOEvent and then reference the results within FakeDb.voevents'
+
+    def replaceEvent(self, graceid, filename, filecontents=None):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def numEvents(self, query=None):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def eels(self, graceid):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def writeEel(self, graceid, group, waveband, eel_status, obs_status, **kwargs):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def emobservations(self, graceid):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def writeEMObservation(self, graceid, group, raList, raWidthList, decList, decWidthList, startTimeList, durationList, comment=None):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def tags(self, graceid, n):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def createTag(self, graceid, n, tagname, displayName=None):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def deleteTag(self, graceid, n, tagname):
+        """
+        WARNING: not implemented
+        """
+        raise NotImplementedError
+
+    def ping(self):
+    
+        """
+        WARNING: not implemented
+        probably want to do something like
+            return os.path.exists(self.service_url)
+        but with an appropriate wrapper (FakeTTPResponse?)
+        """
+        raise NotImplementedError
+
+    @property
+    def service_info(self):
+        raise NotImplementedError
+
+    @property
+    def links(self):
+        raise NotImplementedError
+
+    @property
+    def templates(self):
+        raise NotImplementedError
+
+    def request(self, method, *args, **kwargs):
+        raise NotImplementedError
