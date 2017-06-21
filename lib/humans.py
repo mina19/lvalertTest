@@ -74,7 +74,7 @@ class Site(HumanSignoff):
     '''
     signoff from a particular site
     '''
-    knownSites = ['H1', 'L1']
+    knownSites = ['H1', 'L1', 'V1']
 
     def __init__(self, siteName, graceDBevent, respondTimeout=60.0, respondJitter=10.0, respondProb=1.0, respondProbOfSuccess=1.0, requestTimeout=0.0, requestJitter=0.0, gdb_url='https://gracedb.ligo.org/api/'):
         assert siteName in self.knownSites, 'siteName=%s is not in the list of known sites'%siteName ### ensure we know about this site
