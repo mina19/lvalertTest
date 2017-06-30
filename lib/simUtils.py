@@ -112,6 +112,56 @@ def genSchedule(gps, far, instruments, config, safe=True, gdb_url='https://grace
             sched += adv.genSchedule(request=request, respond=respond)
 
     ### add schedule for dq
+    # VirgoDQ
+    if config.has_section('VirgoDQ'):
+        startDelay      = config.getfloat('VirgoDQ','start delay')
+        startJitter     = config.getfloat('VirgoDQ','start jitter')
+        startProb       = config.getfloat('VirgoDQ','start prob')
+        
+        ifostatsDelay   = config.getfloat('VirgoDQ','ifostats delay')
+        ifostatsJitter  = config.getfloat('VirgoDQ','ifostats jitter')
+        ifostatsProb    = config.getfloat('VirgoDQ','ifostats prob')
+        
+        vetoesDelay     = config.getfloat('VirgoDQ','vetoes delay')
+        vetoesJitter    = config.getfloat('VirgoDQ','vetoes jitter')
+        vetoesProb      = config.getfloat('VirgoDQ','vetoes prob')
+        
+        rmsChanDelay    = config.getfloat('VirgoDQ','rmsChan delay')
+        rmsChanJitter   = config.getfloat('VirgoDQ','rmsChan jitter')
+        rmsChanProb     = config.getfloat('VirgoDQ','rmsChan prob')
+        
+        injDelay        = config.getfloat('VirgoDQ','inj delay')
+        injJitter       = config.getfloat('VirgoDQ','inj jitter')
+        injProb         = config.getfloat('VirgoDQ','inj prob')
+        
+        pad_left        = config.getfloat('VirgoDQ', 'pad left')
+        pad_right       = config.getfloat('VirgoDQ', 'pad right')
+        
+        virgodq     = dq.VirgoDQ(   graceDBevent,
+                                    instruments,
+                                    group,
+                                    pipeline,
+                                    gps-pad_left,
+                                    pad_left+pad_right,
+                                    startDelay      = startDelay,
+                                    startJitter     = startJitter,
+                                    startProb       = startProb,
+                                    ifostatsDelay   = ifostatsDelay,
+                                    ifostatsJitter  = ifostatsJitter,
+                                    ifostatsProb    = ifostatsProb,
+                                    vetoesDelay     = vetoesDelay,
+                                    vetoesJitter    = vetoesJitter,
+                                    vetoesProb      = vetoesProb,
+                                    rmsChanDelay    = rmsChanDelay,
+                                    rmsChanJitter   = rmsChanJitter,
+                                    rmsChanProb     = rmsChanProb,
+                                    injDelay        = injDelay,
+                                    injJitter       = injJitter,
+                                    injProb         = injProb,
+                                    gdb_url         = gdb_url
+                                )
+        sched += virgodq.genSchedule(directory=directory)
+        
     # idq
     if config.has_section('idq'):
 
