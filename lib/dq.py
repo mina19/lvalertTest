@@ -338,7 +338,8 @@ class IDQ():
 class VirgoDQ():
     '''
     Template for the VirgoDQ information
-    #FIXME: Currently implementation will only report 'DID NOT FIND injections'
+    #FIXME: Currently implementation will only report "DID/ DID 
+    NOT FIND injections" for hardware injections from virgo
     '''
     def __init__(self, 
                  graceDBevent, 
@@ -361,8 +362,8 @@ class VirgoDQ():
                  rmsChanProb   = 1.0,
                  injDelay      = 1.0,
                  injJitter     = 0.5,
-                 injProb       = 1.0,
-                 gdb_url = 'https://gracedb-test.ligo.org/api/'):
+                 injProb       = 0.0,
+                 gdb_url = 'https://gracedb.ligo.org/api/'):
         self.graceDBevent   = graceDBevent
         self.instruments    = instruments
         self.group          = group
@@ -454,13 +455,16 @@ class VirgoDQ():
                     filename = self.genRMSChanFilename(directory = directory)
                     sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, filename=filename, gdb_url=self.gdb_url ) )
                     
-                if random.random() <= self.injProb:
-                    #FIXME: Currently implementing "DID NOT FIND injections" 
+                if random.random() < self.injProb:
+                    #FIXME: Currently implementing "FOUND/ DID NOT FIND injections" 
                     #Need to implement what happens when injections are found
+                    dt += max(0, random.normalvariate(self.injDelay, self.injJitter))
+                    message = "Testing V1 hardware injection: FOUND injections"
+                    sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, gdb_url=self.gdb_url ) )
+                else:
                     dt += max(0, random.normalvariate(self.injDelay, self.injJitter))
                     message = "Testing V1 hardware injection: DID NOT FIND injections"
                     sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, gdb_url=self.gdb_url ) )
-                
                 # write finishing test
                 message = "V1 detchar analysis finished"
                 sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, gdb_url=self.gdb_url ) )
