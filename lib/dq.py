@@ -28,7 +28,7 @@ class SegDB2GrcDB():
         dirname = "%s/%s/"%(directory, self.graceDBevent.get_randStr())
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        filename = "%s/%s-%d-%d.xml"%(dirname, flag.replace(":","_"), start, dur)
+        filename = "%s%s-%d-%d.xml"%(dirname, flag.replace(":","_"), start, dur)
         open(filename, 'w').close() ### may want to do more than this...
         return filename
 
@@ -148,7 +148,7 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        filename = "%s/%s_idq_%s-%d-%d.xml.gz"%(dirname, instrument, classifier, self.start, self.dur)
+        filename = "%s%s_idq_%s-%d-%d.xml.gz"%(dirname, instrument, classifier, self.start, self.dur)
         open(filename,'w').close()
 
         return filename
@@ -158,7 +158,7 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        filename = "%s/%s_%s-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        filename = "%s%s_%s-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(filename,'w').close()
 
         return filename
@@ -168,9 +168,9 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        fapfilename = "%s/%s_idq_%s_fap-%d-%d.gwf"%(dirname, instrument, classifier, self.start, self.dur)
+        fapfilename = "%s%s_idq_%s_fap-%d-%d.gwf"%(dirname, instrument, classifier, self.start, self.dur)
         open(fapfilename,'w').close()
-        rnkfilename = "%s/%s_idq_%s_rank-%d-%d.gwf"%(dirname, instrument, classifier, self.start, self.dur)
+        rnkfilename = "%s%s_idq_%s_rank-%d-%d.gwf"%(dirname, instrument, classifier, self.start, self.dur)
         open(rnkfilename,'w').close()
 
         return fapfilename, rnkfilename
@@ -180,7 +180,7 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        filename = "%s/%s_%s_timeseries-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
+        filename = "%s%s_%s_timeseries-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
         open(filename,'w').close()
 
         return filename
@@ -190,9 +190,9 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        jsonFilename = "%s/%s_%s_chanlist-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        jsonFilename = "%s%s_%s_chanlist-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(jsonFilename,'w').close()
-        pngFilename = "%s/%s_%s_chanstrip-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
+        pngFilename = "%s%s_%s_chanstrip-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
         open(pngFilename,'w').close()
 
         return jsonFilename, pngFilename
@@ -202,9 +202,9 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        jsonFilename = "%s/%s_%s_calib-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        jsonFilename = "%s%s_%s_calib-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(jsonFilename,'w').close()
-        pngFilename = "%s/%s_%s_calib-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
+        pngFilename = "%s%s_%s_calib-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
         open(pngFilename,'w').close()
 
         return jsonFilename, pngFilename
@@ -214,9 +214,9 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        jsonFilename = "%s/%s_%s_ROC-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        jsonFilename = "%s%s_%s_ROC-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(jsonFilename,'w').close()
-        pngFilename = "%s/%s_%s_ROC-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
+        pngFilename = "%s%s_%s_ROC-%d-%d.png"%(dirname, instrument, classifier, self.start, self.dur)
         open(pngFilename,'w').close()
 
         return jsonFilename, pngFilename
@@ -226,9 +226,9 @@ class IDQ():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        jsonFilename = "%s/%s_%s_calibStats-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        jsonFilename = "%s%s_%s_calibStats-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(jsonFilename,'w').close()
-        pngFilename = "%s/%s_%s_trainStats-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
+        pngFilename = "%s%s_%s_trainStats-%d-%d.json"%(dirname, instrument, classifier, self.start, self.dur)
         open(pngFilename,'w').close()
 
         return jsonFilename, pngFilename

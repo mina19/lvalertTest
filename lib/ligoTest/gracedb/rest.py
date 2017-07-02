@@ -86,6 +86,7 @@ class FakeDb():
                          'ADVREQ', 'ADVOK', 'ADVNO', 
                          'H1OPS', 'H1OK', 'H1NO',
                          'L1OPS', 'L1OK', 'L1NO',
+                         'V1OPS', 'V1OK', 'V1NO',
                         ]
 
     ### basic instantiation ###
