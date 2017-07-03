@@ -459,7 +459,7 @@ class VirgoDQ():
                     #FIXME: Currently implementing "FOUND/ DID NOT FIND injections" 
                     #Need to implement what happens when injections are found
                     dt += max(0, random.normalvariate(self.injDelay, self.injJitter))
-                    message = "Testing V1 hardware injection: FOUND injections"
+                    message = "Testing V1 hardware injection: DID FIND injections"
                     sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, gdb_url=self.gdb_url ) )
                 else:
                     dt += max(0, random.normalvariate(self.injDelay, self.injJitter))
