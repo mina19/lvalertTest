@@ -102,7 +102,7 @@ class Adv(HumanSignoff):
         self.name = 'ADV'
         self.instrument = ''
         self.signoff_type = 'ADV'
-        super(Site, self).__init__(graceDBevent, 
+        super(Adv, self).__init__(graceDBevent, 
                                    gdb_url=gdb_url,
                                    requestTimeout=requestTimeout, 
                                    requestJitter=requestTimeout,
