@@ -91,8 +91,8 @@ class FakeDb():
 
     __allowedSignoffs__ = ['H1OK' , 'H1NO',
                            'L1OK' , 'L1NO',
-                           'V1OK' , 'V1NO'
-                           'ADVOK', 'ADVNO'
+                           'V1OK' , 'V1NO',
+                           'ADVOK', 'ADVNO',
                           ]
 
     ### basic instantiation ###
