@@ -499,9 +499,10 @@ class FakeDb():
         raise NotImplementedError('this is not implemented in the real GraceDb, so we do not implement it here. At least, not yet.')
 
     def __signoff__(self, graceid, instrument, signoff_type, status ):
+        signoff = '{0}{1}'.format(instrument, status) if instrument else '{0}{1}'.format(signoff_type, status)
         jsonD = {'self':self.__labelsPath__(graceid),
                  'creator':getpass.getuser(),
-                 'name':'{0}{1}'.format(instrument, status) if instrument else '{0}{1}'.format(signoff_type, status),
+                 'name':signoff,
                  'created':time.time(),
                 } # we use the labelsPath because when we query FakeTTP for H1OK, etc they are recorded as labels and need to be in the labels.pkl file
         lvalert = {'uid':graceid,
@@ -509,6 +510,11 @@ class FakeDb():
                    'object': {'instrument':instrument, 'signoff_type':signoff_type, 'status':status},
                    'file':'',
                   }
+
+        self.writeLog( graceid, 'applying label from signoff : %s'%signoff )
+        self.__append__( jsonD, self.__labelsPath__(graceid) )
+
+        return jsonD, lvalert
 
     def writeSignoff(self, graceid, instrument, signoff_type, status):
         signoff = '{0}{1}'.format(instrument, status) if instrument else '{0}{1}'.format(signoff_type, status)
