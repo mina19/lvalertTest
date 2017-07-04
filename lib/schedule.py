@@ -285,4 +285,31 @@ class WriteFile(Action):
         httpResponse = gdb.writeFile( self.graceDBevent.get_graceid(), filename=self.filename )
         return httpResponse
 
+class WriteSignoff(Action):
+    '''
+    create human or advocate signoff
+    '''
+    def __init__(self, dt, graceDBevent, instrument, signoff_type, status, gdb_url='https://gracedb.ligo.org/api'):
+        self.graceDBevent = graceDBevent
+        self.gdb_url = gdb_url
+
+        self.instrument   = instrument
+        self.signoff_type = signoff_type
+        self.status       = status
+        self.signoff = '{0}{1}'.format(self.instrument, self.status) if self.instrument else '{0}{1}'.format(self.signoff_type, self.status)
+
+        super(WriteSignoff, self).__init__(dt, self.writeSignoff)
+
+    def __str__(self):
+        return """WriteSignoff -> %s
+    randStr    : %s
+    graceid    : %s
+    signoff    : %s
+    timeout    : %.3f
+    expiration : %s"""%(self.gdb_url, self.graceDBevent.get_randStr(), self.graceDBevent.get_graceid(force=True), self.signoff, self.dt, "%.3f"%self.expiration if self.expiration else "None")
+
+    def writeSignoff(self, *args, **kwargs):
+        gdb = initGraceDb(self.gdb_url) ### delegate to work out whether we want GraceDb or FakeDb
+        httpResponse = gdb.writeSignoff( self.graceDBevent.get_graceid(), self.instrument, self.signoff_type, self.status )
+        return httpResponse
 
