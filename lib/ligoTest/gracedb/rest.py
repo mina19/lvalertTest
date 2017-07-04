@@ -507,6 +507,7 @@ class FakeDb():
                 } # we use the labelsPath because when we query FakeTTP for H1OK, etc they are recorded as labels and need to be in the labels.pkl file
         lvalert = {'uid':graceid,
                    'alert_type':'signoff',
+                   'description': '',
                    'object': {'instrument':instrument, 'signoff_type':signoff_type, 'status':status},
                    'file':'',
                   }
