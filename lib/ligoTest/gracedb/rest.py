@@ -89,6 +89,12 @@ class FakeDb():
                          'V1OPS', 'V1OK', 'V1NO',
                         ]
 
+    __allowedSignoffs__ = ['H1OK' , 'H1NO',
+                           'L1OK' , 'L1NO',
+                           'V1OK' , 'V1NO',
+                           'ADVOK', 'ADVNO',
+                          ]
+
     ### basic instantiation ###
 
     def __init__(self, directory='.'):
@@ -132,7 +138,9 @@ class FakeDb():
         if not os.path.exists(self.__directory__(graceid)):
             raise FakeTTPError('could not find graceid=%s'%graceid)
 
-
+    def check_signoff(self, signoff):
+        if signoff not in self.__allowedSignoffs__:
+            raise FakeTTPError('signoff=%s not allowed'%signoff)
 
     ### generic utils and data management ###
 
@@ -489,6 +497,34 @@ class FakeDb():
         self.check_graceid(graceid)
 
         raise NotImplementedError('this is not implemented in the real GraceDb, so we do not implement it here. At least, not yet.')
+
+    def __signoff__(self, graceid, instrument, signoff_type, status ):
+        signoff = '{0}{1}'.format(instrument, status) if instrument else '{0}{1}'.format(signoff_type, status)
+        jsonD = {'self':self.__labelsPath__(graceid),
+                 'creator':getpass.getuser(),
+                 'name':signoff,
+                 'created':time.time(),
+                } # we use the labelsPath because when we query FakeTTP for H1OK, etc they are recorded as labels and need to be in the labels.pkl file
+        lvalert = {'uid':graceid,
+                   'alert_type':'signoff',
+                   'description': '',
+                   'object': {'instrument':instrument, 'signoff_type':signoff_type, 'status':status},
+                   'file':'',
+                  }
+
+        self.writeLog( graceid, 'applying label from signoff : %s'%signoff )
+        self.__append__( jsonD, self.__labelsPath__(graceid) )
+
+        return jsonD, lvalert
+
+    def writeSignoff(self, graceid, instrument, signoff_type, status):
+        signoff = '{0}{1}'.format(instrument, status) if instrument else '{0}{1}'.format(signoff_type, status)
+        self.check_graceid(graceid)
+        self.check_signoff( signoff )
+
+        jsonD, lvalert = self.__signoff__( graceid, instrument, signoff_type, status )
+        self.sendlvalert( lvalert, self.__node__(graceid) )
+        return FakeTTPResponse(jsonD)
 
     ### queries ###
 

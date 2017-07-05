@@ -42,9 +42,9 @@ class HumanSignoff(object):
         flip a coinc and decide if we get an OK or a NO label
         '''
         if random.random() < self.respondSuccess: ### we succeed -> OK label
-            return "%sOK"%(self.name)
+            return "OK"
         else: ### we reject -> NO label
-            return "%sNO"%(self.name)
+            return "NO"
 
     def genSchedule(self, request=True, respond=True):
         '''
@@ -62,7 +62,7 @@ class HumanSignoff(object):
                 ### currently, RemoveLable is not implemented...
 #                remove = schedule.RemoveLabel( respond_dt, self.graceDBevent, self.request(), gdb_url=self.gdb_url )
 #                sched.insert( remove )
-            respond = schedule.WriteLabel( respond_dt, self.graceDBevent, self.decide(), gdb_url=self.gdb_url )
+            respond = schedule.WriteSignoff( respond_dt, self.graceDBevent, self.instrument, self.signoff_type, self.decide(), gdb_url=self.gdb_url)
             sched.insert( respond )
         return sched
 
@@ -79,6 +79,8 @@ class Site(HumanSignoff):
     def __init__(self, siteName, graceDBevent, respondTimeout=60.0, respondJitter=10.0, respondProb=1.0, respondProbOfSuccess=1.0, requestTimeout=0.0, requestJitter=0.0, gdb_url='https://gracedb.ligo.org/api/'):
         assert siteName in self.knownSites, 'siteName=%s is not in the list of known sites'%siteName ### ensure we know about this site
         self.name = siteName
+        self.instrument = siteName
+        self.signoff_type = 'OP'
         super(Site, self).__init__(graceDBevent, 
                                    gdb_url=gdb_url,
                                    requestTimeout=requestTimeout, 
@@ -96,4 +98,16 @@ class Adv(HumanSignoff):
     '''
     signoff from EM Advocates
     '''
-    name = 'ADV'
+    def __init__(self, graceDBevent, respondTimeout=60.0, respondJitter=10.0, respondProb=1.0, respondProbOfSuccess=1.0, requestTimeout=0.0, requestJitter=0.0, gdb_url='https://gracedb.ligo.org/api/'):
+        self.name = 'ADV'
+        self.instrument = ''
+        self.signoff_type = 'ADV'
+        super(Adv, self).__init__(graceDBevent, 
+                                   gdb_url=gdb_url,
+                                   requestTimeout=requestTimeout, 
+                                   requestJitter=requestTimeout,
+                                   respondTimeout=respondTimeout,
+                                   respondJitter=respondJitter,
+                                   respondProb=respondProb,
+                                   respondProbOfSuccess=respondProbOfSuccess,
+                                  )

@@ -401,7 +401,7 @@ class VirgoDQ():
         '''
         dirname = "%s/%s/"%(directory, self.graceDBevent.get_randStr())
         if not os.path.exists(dirname):
-            os.mkdirs(dirname)
+            os.makedirs(dirname)
         txtFileName = "%sVirgo_%s_%d_DQ_META.txt"%(dirname, self.graceDBevent.__graceid__, self.start)
         open(txtFileName,'w').close()
         return txtFileName
