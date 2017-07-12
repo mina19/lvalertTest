@@ -718,11 +718,11 @@ This XML file does not appear to have any style information associated with it. 
 
 known_pipelines = dict( (x.pipeline, x) for x in vars().values() if isinstance(x, type) and issubclass(x, Pipeline) )
 
-def initPipeline(gps, far, instruments, group, pipeline, graceDBevent, search=None, gdb_url='https://gracedb.ligo.org/api/'):
+def initPipeline(gps, far, instruments, group, pipeline, graceDBevent, search=None, offline=False, gdb_url='https://gracedb.ligo.org/api/'):
     '''
     looks up the correct object and instantiates it
     '''
     if known_pipelines.has_key(pipeline):
-        return known_pipelines[pipeline](gps, far, instruments, group, graceDBevent, search=search, gdb_url=gdb_url)
+        return known_pipelines[pipeline](gps, far, instruments, group, graceDBevent, search=search, offline=offline, gdb_url=gdb_url)
     else:
         raise KeyError('could not find a Pipeline object with pipeline=%s'%pipeline)
