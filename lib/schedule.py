@@ -149,7 +149,7 @@ class CreateEvent(Action):
     '''
     create an event
     '''
-    def __init__(self, dt, graceDBevent, group, pipeline, filename, search=None, gdb_url='https://gracedb.ligo.org/api'):
+    def __init__(self, dt, graceDBevent, group, pipeline, filename, search=None, offline=False, gdb_url='https://gracedb.ligo.org/api'):
         self.graceDBevent = graceDBevent
         self.gdb_url = gdb_url
 
@@ -157,6 +157,7 @@ class CreateEvent(Action):
         self.group    = group
         self.pipeline = pipeline
         self.search   = search
+        self.offline  = offline
 
         super(CreateEvent, self).__init__(dt, self.createEvent)
 
@@ -175,7 +176,7 @@ class CreateEvent(Action):
         creates the entry in the database and updates self.graceDBevent.graceid so that other Actions know which graceid was assigned
         '''
         gdb = initGraceDb(self.gdb_url) ### delegate to work out whether we want GraceDb or FakeDb
-        httpResponse = gdb.createEvent( self.group, self.pipeline, self.filename, search=self.search )
+        httpResponse = gdb.createEvent( self.group, self.pipeline, self.filename, search=self.search, offline=self.offline )
         data = httpResponse.json()
         self.graceDBevent.set_graceid( data['graceid'] ) 
         return FakeTTPResponse( data )  ### NOTE: we've already read the httpResponse once, so we need to make a new one...

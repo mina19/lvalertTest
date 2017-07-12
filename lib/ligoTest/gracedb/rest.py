@@ -253,7 +253,7 @@ class FakeDb():
 
     ### insertion ###
 
-    def __createEvent__(self, graceid, group, pipeline, filename, search=None):
+    def __createEvent__(self, graceid, group, pipeline, filename, search=None, offline=False):
         labelsPath = self.__labelsPath__(graceid)
         jsonD = {'graceid':graceid,
                  'group'  :group,
@@ -270,6 +270,7 @@ class FakeDb():
                            'filemeta':self.__topLevelPath__(graceid),
                            'emobservations':'',
                           },
+                 'offline':offline,   
                 }
         if search!=None:
             jsonD['search'] = search

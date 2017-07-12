@@ -72,7 +72,7 @@ class Pipeline(object):
     allowed_groups   = []
     allowed_searches = []
 
-    def __init__(self, gps, far, instruments, group, graceDBevent, search=None, gdb_url='https://gracedb.ligo.org/api/'):
+    def __init__(self, gps, far, instruments, group, graceDBevent, search=None, offline=False, gdb_url='https://gracedb.ligo.org/api/'):
         self.graceDBevent = graceDBevent
         self.gdb_url      = gdb_url
 
@@ -82,6 +82,7 @@ class Pipeline(object):
         if self.allowed_searches: ### if specified, check
             assert search in self.allowed_searches, 'search=%s not allowed for pipeline=%s'%(search, self.pipeline)
         self.search = search
+        self.offline = offline
 
         self.gps = gps
         self.far = far
@@ -114,7 +115,7 @@ class Pipeline(object):
         sched = schedule.Schedule(t0=0)
 
         firstFile, otherFiles = self.genFiles(directory=directory) ### generate files
-        sched.insert( schedule.CreateEvent( 0.0, self.graceDBevent, self.group, self.pipeline, firstFile, search=self.search, gdb_url=self.gdb_url ) )
+        sched.insert( schedule.CreateEvent( 0.0, self.graceDBevent, self.group, self.pipeline, firstFile, search=self.search, offline=self.offline, gdb_url=self.gdb_url ) )
         for dt, message, filename in otherFiles: ### schedule any ancilliary file uploads
             sched.insert( schedule.WriteLog( dt, self.graceDBevent, message, filename=filename, gdb_url=self.gdb_url ) ) 
 

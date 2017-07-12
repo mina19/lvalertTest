@@ -63,8 +63,12 @@ def genSchedule(gps, far, instruments, config, safe=True, gdb_url='https://grace
         search = config.get('general', 'search')
     else:
         search = None
+    if config.has_option('general', 'offline'):
+        offline = config.getboolean('general', 'offline'):
+    else:
+        offline = False
 
-    pipeObj = pipelines.initPipeline(gps, far, instruments, group, pipeline, graceDBevent, search=search, gdb_url=gdb_url)
+    pipeObj = pipelines.initPipeline(gps, far, instruments, group, pipeline, graceDBevent, search=search, offline=offline, gdb_url=gdb_url)
     sched += pipeObj.genSchedule(directory=directory)
 
     ### add schedule for human interactions
