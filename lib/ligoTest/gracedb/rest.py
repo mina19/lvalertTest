@@ -254,6 +254,7 @@ class FakeDb():
     ### insertion ###
 
     def __createEvent__(self, graceid, group, pipeline, filename, search=None, offline=False):
+        print('createEvent offline: {0}'.format(offline))
         labelsPath = self.__labelsPath__(graceid)
         jsonD = {'graceid':graceid,
                  'group'  :group,
@@ -383,7 +384,7 @@ class FakeDb():
 
         return ans
 
-    def createEvent(self, group, pipeline, filename, search=None, filecontents=None, **kwargs):
+    def createEvent(self, group, pipeline, filename, search=None, offline=False, filecontents=None, **kwargs):
         self.check_group_pipeline_search( group, pipeline, search )
 
         #group    = group.lower()
@@ -395,7 +396,7 @@ class FakeDb():
         self.__createDirectory__(graceid) ### create local directory and all necessary files
 
         ### write top level data
-        jsonD, lvalert = self.__createEvent__( graceid, group, pipeline, filename, search=search )
+        jsonD, lvalert = self.__createEvent__( graceid, group, pipeline, filename, search=search, offline=offline)
         self.sendlvalert( lvalert, self.__node__(graceid) )
 
         ### write filename to local
