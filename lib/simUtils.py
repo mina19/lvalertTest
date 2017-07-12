@@ -64,7 +64,7 @@ def genSchedule(gps, far, instruments, config, safe=True, gdb_url='https://grace
     else:
         search = None
     if config.has_option('general', 'offline'):
-        offline = config.getboolean('general', 'offline'):
+        offline = config.getboolean('general', 'offline')
     else:
         offline = False
 
