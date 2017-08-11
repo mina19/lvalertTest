@@ -411,6 +411,9 @@ class FakeDb():
     def __logsPath__(self, graceid):
         return os.path.join(self.service_url, graceid, 'logs.pkl')
 
+    def __voeventsPath__(self, graceid):
+        return os.path.join(self.service_url, graceid, 'voevents.pkl')
+
     def __path2len__(self, path):
         return len(self.__extract__(path))
 
@@ -449,6 +452,7 @@ class FakeDb():
             paths = [self.__filesPath__(graceid), 
                      self.__labelsPath__(graceid), 
                      self.__logsPath__(graceid),
+                     self.__voeventsPath__(graceid),
                     ]
             for path in paths:
                 file_obj = open(path, 'w')
@@ -882,7 +886,19 @@ class FakeDb():
         """
         WARNING: not implemented yet. Should return some sort of list of VOEvents that have been created for this GraceId
         """
-        raise NotImplementedError, 'need to implement FakeDb.createVOEvent and then reference the results within FakeDb.voevents'
+        self.check_graceid(graceid)
+
+        voevents = self.__extract__( self.__voeventsPath__(graceid) )
+        voeventsPath = self.__voeventsPath__(graceid)
+        return FakeTTPResponse( {'numRows':len(voevents),
+                                 'start':0,
+                                 'links':{'self'  : voeventsPath,
+                                          'first' : voeventsPath,
+                                          'last'  : voeventsPath,
+                                         },
+                                 'voevents': voevents,
+                                }
+                              )
 
     def replaceEvent(self, graceid, filename, filecontents=None):
         """
