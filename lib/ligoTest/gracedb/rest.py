@@ -439,6 +439,9 @@ class FakeDb():
     def __labelsPath__(self, graceid):
         return os.path.join(self.service_url, graceid, 'labels.pkl')
 
+    def __signoffsPath__(self, graceid):
+        return os.path.join(self.service_url, graceid, 'signoffs.pkl')
+
     def __logsPath__(self, graceid):
         return os.path.join(self.service_url, graceid, 'logs.pkl')
 
@@ -483,6 +486,7 @@ class FakeDb():
             paths = [self.__filesPath__(graceid), 
                      self.__labelsPath__(graceid), 
                      self.__logsPath__(graceid),
+                     self.__signoffsPath__(graceid),
                      self.__voeventsPath__(graceid),
                     ]
             for path in paths:
@@ -754,15 +758,17 @@ class FakeDb():
                  'name':signoff,
                  'created':time.time(),
                 } # we use the labelsPath because when we query FakeTTP for H1OK, etc they are recorded as labels and need to be in the labels.pkl file
+        signoffObject = {'instrument':instrument, 'signoff_type':signoff_type, 'status':status}
         lvalert = {'uid':graceid,
                    'alert_type':'signoff',
                    'description': '',
-                   'object': {'instrument':instrument, 'signoff_type':signoff_type, 'status':status},
+                   'object': signoffObject,
                    'file':'',
                   }
-
+        
         self.writeLog( graceid, 'applying label from signoff : %s'%signoff )
         self.__append__( jsonD, self.__labelsPath__(graceid) )
+        self.__append__( signoffObject, self.__signoffsPath__(graceid) )
 
         return jsonD, lvalert
 
