@@ -246,6 +246,13 @@ class FakeDb():
         'IN': 'initial',
     }
 
+    __obsStatuses__ = {
+        'PR': 'PREDICTION',
+        'NA': 'NOT APPLICABLE',
+        'TE': 'TEST',
+        'OB': 'OBSERVATION'
+    }
+
     __allowedEELStatuses__ = {
         'SO': 'SOURCE', 
         'CI': 'CIRCULAR', 
@@ -260,7 +267,11 @@ class FakeDb():
         'OB': 'OBSERVATION',
     }
 
-    ### properties that would query the remote server
+    __allowedSignoffs__ = ['H1OK' , 'H1NO',
+                           'L1OK' , 'L1NO',
+                           'V1OK' , 'V1NO',
+                           'ADVOK', 'ADVNO',
+                          ]
 
     @property
     def groups(self):
@@ -280,6 +291,9 @@ class FakeDb():
             for v in val.values():
                 ans += v
         return [_ for _ in sorted(set(ans)) if _!=None]
+    @property
+    def obs_statuses(self):
+        return self.__obsStatuses__
 
     @property
     def em_groups(self):
@@ -301,11 +315,28 @@ class FakeDb():
     def obs_statuses(self):
         return self.__allowedOBSStatuses__
 
-    __allowedSignoffs__ = ['H1OK' , 'H1NO',
-                           'L1OK' , 'L1NO',
-                           'V1OK' , 'V1NO',
-                           'ADVOK', 'ADVNO',
-                          ]
+    @property
+    def service_info(self):
+        result= {'templates'    : {
+                                   'event-detail-template': self.service_url+'{graceid}', 
+                                   'voevent-list-template': self.service_url+'{graceid}/voevents.pkl', 
+                                   'signoff-list-template': self.service_url+'{graceid}/signoffs.pkl',
+                                   },
+                 'searches'     : self.searches,
+                 'pipelines'    : self.pipelines,
+                 'links'        : {'performance': None,
+                                       'self': self.service_url,
+                                       'events': None,
+                                  },
+                 'wavebands'    : self.wavebands,
+                 'labels'       : self.__allowedLabels__,
+                 'eel-statuses' : self.eel_statuses,
+                 'obs-statuses' : self.obs_statuses,
+                 'em-groups'    : self.em_groups,
+                 'groups'       : self.groups,
+                 'voevent-types': self.voevent_types,
+                }
+        return result
 
     ### basic instantiation ###
 
@@ -965,16 +996,12 @@ class FakeDb():
         raise NotImplementedError
 
     @property
-    def service_info(self):
-        raise NotImplementedError
-
-    @property
     def links(self):
-        raise NotImplementedError
+        return self.service_info.get('links')
 
     @property
     def templates(self):
-        raise NotImplementedError
+        return self.service_info.get('templates')
 
     def request(self, method, *args, **kwargs):
         raise NotImplementedError
