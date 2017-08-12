@@ -295,11 +295,11 @@ class FakeDb():
 
     @property
     def eel_statuses(self):
-        return __allowedEELStatuses__
+        return self.__allowedEELStatuses__
 
     @property
     def obs_statuses(self):
-        return __allowedOBSStatuses__
+        return self.__allowedOBSStatuses__
 
     __allowedSignoffs__ = ['H1OK' , 'H1NO',
                            'L1OK' , 'L1NO',
