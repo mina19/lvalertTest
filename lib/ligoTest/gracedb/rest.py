@@ -353,6 +353,14 @@ class FakeDb():
         print >> file_obj, lvutils.alert2line(node, json.dumps(message))
         file_obj.close()
 
+    ### simulate get(...) according to GraceDb.get()
+    def get(self, url):
+        '''
+        Returns the content of pickle file as a FakeTTPResponse
+        '''
+        content = self.__extract__(url)
+        return FakeTTPResponse(content)
+        
     def __node__(self, graceid):
         '''
         figures out the node name given a graceid
@@ -472,6 +480,13 @@ class FakeDb():
         file_obj.close()
 
         return ans
+        
+    def __signOffappend__( self, signoffObject, path ):
+        '''append signoffObject to signoff key'''
+        content  = self.__extract__(path) # this returns a dictionary
+        listofSignoffs = content.get('signoff')
+        listofSignoffs.append(signoffObject)
+        self.__write__(content, path)
 
     def __createDirectory__(self, graceid):
         '''
@@ -486,13 +501,21 @@ class FakeDb():
             paths = [self.__filesPath__(graceid), 
                      self.__labelsPath__(graceid), 
                      self.__logsPath__(graceid),
-                     self.__signoffsPath__(graceid),
                      self.__voeventsPath__(graceid),
                     ]
             for path in paths:
                 file_obj = open(path, 'w')
                 pickle.dump([], file_obj)
                 file_obj.close()
+            # make signoffs.pkl file which is a DICTIONARY not a list!
+            file_obj = open(self.__signoffsPath__(graceid), 'w')
+            signoffDict = {'numRows': None,
+                           'start'  : None,
+                           'signoff': [],
+                           'links'  : None
+                          }
+            pickle.dump(signoffDict, file_obj)
+            file_obj.close()
 
     def __newfilename__(self, graceid, filename):
         return os.path.join(self.service_url, graceid, os.path.basename(filename))
@@ -758,7 +781,12 @@ class FakeDb():
                  'name':signoff,
                  'created':time.time(),
                 } # we use the labelsPath because when we query FakeTTP for H1OK, etc they are recorded as labels and need to be in the labels.pkl file
-        signoffObject = {'instrument':instrument, 'signoff_type':signoff_type, 'status':status}
+        signoffObject = {'submitter'   : None,
+                         'comment'     : None,
+                         'instrument'  : instrument,
+                         'signoff_type': signoff_type, 
+                         'status'      : status
+                        }
         lvalert = {'uid':graceid,
                    'alert_type':'signoff',
                    'description': '',
@@ -768,7 +796,7 @@ class FakeDb():
         
         self.writeLog( graceid, 'applying label from signoff : %s'%signoff )
         self.__append__( jsonD, self.__labelsPath__(graceid) )
-        self.__append__( signoffObject, self.__signoffsPath__(graceid) )
+        self.__signOffappend__( signoffObject, self.__signoffsPath__(graceid) )
 
         return jsonD, lvalert
 
